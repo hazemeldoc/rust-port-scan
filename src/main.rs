@@ -17,7 +17,9 @@ async fn main() {
     file_read::read_file_line_by_line(path, &mut Q);
     for i in 0..Q.len()
     {
+        
         let target=Q.pop().unwrap();
+        println!("---------------{}-------------",target);
         let split = target.split(".");
         let vec = split.collect::<Vec<&str>>();
 	    let octet1=vec[0].parse::<u8>().unwrap();
