@@ -1,11 +1,10 @@
-use std::env;
-use std::net::{SocketAddr};
 use std::process::exit;
+use std::{env, vec};
+use std::str::Split;
 use std::time::Duration;
 use std::vec::Vec;
 use tokio::time::sleep;
-use tokio::net::TcpStream;
-use clap::{App, Arg};
+use dns_lookup::lookup_host;
 
 mod file_read;
 mod portscan;
@@ -15,11 +14,12 @@ async fn main() {
     let path = &args[1];
     let mut Q=vec![];
     file_read::read_file_line_by_line(path, &mut Q);
-    for i in 0..Q.len()
+    for _i in 0..Q.len()
     {
-        
-        let target=Q.pop().unwrap();
+        let mut target=Q.pop().unwrap();
+        let mut ips: Vec<std::net::IpAddr> = lookup_host(&target).unwrap();
         println!("---------------{}-------------",target);
+        target=ips.pop().unwrap().to_string();
         let split = target.split(".");
         let vec = split.collect::<Vec<&str>>();
 	    let octet1=vec[0].parse::<u8>().unwrap();
@@ -46,7 +46,6 @@ async fn start_scan(octet1:u8,octet2:u8,octet3:u8,octet4:u8)
     }
     for handle_parent in handles_parent
     {
-        sleep(Duration::from_millis(200)).await;
         handle_parent.await.unwrap();
     }
 }

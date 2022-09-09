@@ -28,7 +28,7 @@ pub async fn start_scan_1000 (l:u16,oct1:u8,oct2:u8,oct3:u8,oct4:u8)-> bool
         handle.await.unwrap();
     }
 
-    sleep(Duration::from_millis(300)).await;
+    sleep(Duration::from_millis(200)).await;
     return false;
 }
 async fn test_port(oct1:u8,oct2:u8,oct3:u8,oct4:u8,port:u16) -> bool
