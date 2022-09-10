@@ -1,9 +1,7 @@
 use std::net::{SocketAddr};
 use std::time::Duration;
-use std::vec::Vec;
 use tokio::time::sleep;
 use tokio::net::TcpStream;
-use clap::{App, Arg};
 
 pub async fn start_scan_1000 (l:u16,oct1:u8,oct2:u8,oct3:u8,oct4:u8)-> bool
 {
@@ -28,7 +26,7 @@ pub async fn start_scan_1000 (l:u16,oct1:u8,oct2:u8,oct3:u8,oct4:u8)-> bool
         handle.await.unwrap();
     }
 
-    sleep(Duration::from_millis(200)).await;
+    sleep(Duration::from_millis(300)).await;
     return false;
 }
 async fn test_port(oct1:u8,oct2:u8,oct3:u8,oct4:u8,port:u16) -> bool

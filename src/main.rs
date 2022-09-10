@@ -1,10 +1,10 @@
-use std::process::exit;
+use std::net::IpAddr;
 use std::{env, vec};
-use std::str::Split;
 use std::time::Duration;
 use std::vec::Vec;
 use tokio::time::sleep;
 use dns_lookup::lookup_host;
+use std::str::FromStr;
 
 mod file_read;
 mod portscan;
@@ -19,7 +19,12 @@ async fn main() {
         let mut target=Q.pop().unwrap();
         let mut ips: Vec<std::net::IpAddr> = lookup_host(&target).unwrap();
         println!("---------------{}-------------",target);
-        target=ips.pop().unwrap().to_string();
+        target=ips.pop().unwrap_or(IpAddr::from_str("99.99.99.99").unwrap()).to_string();
+        if target=="99.99.99.99".to_string()
+        {
+            //i know it's such a bad way to handle the error ;) ,but it's not stupid if it works
+            continue;
+        }
         let split = target.split(".");
         let vec = split.collect::<Vec<&str>>();
 	    let octet1=vec[0].parse::<u8>().unwrap();
@@ -41,11 +46,13 @@ async fn start_scan(octet1:u8,octet2:u8,octet3:u8,octet4:u8)
            //still workin on it
         }
         });
-        sleep(Duration::from_millis(200)).await;
+        sleep(Duration::from_millis(300)).await;
         handles_parent.push(handle_parent);
     }
     for handle_parent in handles_parent
     {
+        
+        sleep(Duration::from_millis(200)).await;
         handle_parent.await.unwrap();
     }
 }
