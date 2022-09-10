@@ -17,8 +17,8 @@ async fn main() {
     for _i in 0..Q.len()
     {
         let mut target=Q.pop().unwrap();
-        let mut ips: Vec<std::net::IpAddr> = lookup_host(&target).unwrap();
         println!("---------------{}-------------",target);
+        let mut ips: Vec<std::net::IpAddr> = lookup_host(&target).unwrap();
         target=ips.pop().unwrap_or(IpAddr::from_str("99.99.99.99").unwrap()).to_string();
         if target=="99.99.99.99".to_string()
         {
