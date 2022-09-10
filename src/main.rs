@@ -18,8 +18,8 @@ async fn main() {
     {
         let mut target=Q.pop().unwrap();
         println!("---------------{}-------------",target);
-        let mut ips: Vec<std::net::IpAddr> = lookup_host(&target).unwrap();
-        target=ips.pop().unwrap_or(IpAddr::from_str("99.99.99.99").unwrap()).to_string();
+        let mut ips: Vec<std::net::IpAddr> = lookup_host(&target).unwrap_or(vec![IpAddr::from_str("99.99.99.99").unwrap()]);
+        target=ips.pop().unwrap().to_string();
         if target=="99.99.99.99".to_string()
         {
             //i know it's such a bad way to handle the error ;) ,but it's not stupid if it works
